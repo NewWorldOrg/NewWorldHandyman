@@ -1,0 +1,8 @@
+[DEFAULT]
+BOT_TOKEN = 'token'
+
+[DB]
+USER = 'root'
+PASSWD = 'root'
+HOST = 'localhost'
+DATABASE = 'db_name'
