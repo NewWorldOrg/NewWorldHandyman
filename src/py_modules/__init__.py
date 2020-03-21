@@ -1,1 +1,1 @@
-from src.py_modules.bot import *
+from src.py_modules import *
