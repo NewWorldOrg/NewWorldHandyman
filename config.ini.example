@@ -1,8 +1,11 @@
 [DEFAULT]
-BOT_TOKEN = 'token'
+BOT_TOKEN = token
+
+[NEW_WORLD]
+GENERAL_TEXT_CHANNEL_ID =
 
 [DB]
-USER = 'root'
-PASSWD = 'root'
-HOST = 'localhost'
-DATABASE = 'db_name'
+USER = root
+PASSWD = root
+HOST = localhost
+DATABASE = db_name
