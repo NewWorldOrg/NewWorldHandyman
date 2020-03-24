@@ -23,7 +23,7 @@ class MyCog(commands.Cog):
     async def hello(self, ctx):
         await ctx.send('Handyman is watching you')
 
-    @tasks.loop(seconds=1)
+    @tasks.loop(minutes=1)
     async def sleep_alert(self):
         now = datetime.now().strftime('%H:%M')
         if now == '02:00':
