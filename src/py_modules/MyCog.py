@@ -26,7 +26,7 @@ class MyCog(commands.Cog):
     @tasks.loop(seconds=1)
     async def sleep_alert(self):
         now = datetime.now().strftime('%H:%M:%S')
-        if now == '02:00:00':
+        if now == '02:00:01':
             channel = self.bot.get_channel(self.general_text_channel_id)
             await channel.send('寝ろ')
 
