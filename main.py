@@ -23,14 +23,8 @@ class DiscordClient(commands.Bot):
         print("I'm ready !")
 
     async def on_message(self, message):
-
         await self.process_commands(message)
-        # ヤクブーツ使用記録用コマンド
-        '''if '!のんだ ' in message.content:
-           #message.channel.send(send'ok')
-           msg = message.content
-           await self.drug_use_history_logger(msg.replace('!のんだ ', ''), message.channel)
-        '''
+
 def main():
 
     base = os.path.dirname(os.path.abspath(__file__))
