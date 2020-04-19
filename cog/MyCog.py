@@ -22,11 +22,16 @@ class MyCog(commands.Cog):
     async def drug(self, ctx, arg):
         mod = myMod()
         user = ctx.author.name
-
+        embed_description = f"{user} took '{arg}' to drink at {datetime.now().strftime('%H:%M')}"
+        icon = f'https://cdn.discordapp.com/avatars/{str(ctx.author.id)}/{ctx.author.avatar}.png'
+        embed=discord.Embed(title='のんだ', description=embed_description, color=0xff4dd8)
+        embed.set_author(name=user, icon_url=icon)
+        embed.set_thumbnail(url="https://cloud.mogamin.net/apps/files_sharing/publicpreview/Q56wtgd8x2SEoXk?fileId=299&file=%2FEQ9n5UUUEAAYwTR.jpeg&x=1680&y=1050&a=true")
+        embed.set_footer(text='NewWorldHandyman')
         if not mod.save_use_drug_history(user, arg):
             await ctx.send('薬物の検出ができません')
 
-        await ctx.send(f'{arg}, {user}')
+        await ctx.send(embed=embed)
 
     @commands.command()
     async def hello(self, ctx):
