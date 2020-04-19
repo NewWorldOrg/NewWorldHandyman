@@ -30,7 +30,7 @@ class MyCog(commands.Cog):
         embed.set_footer(text='NewWorldHandyman')
         if not mod.save_use_drug_history(user, arg):
             embed.add_field(name="", value="薬物の検出に失敗しました", inline=True)
-            await ctx.send(embed)
+            await ctx.send(embed=embed)
 
         await ctx.send(embed=embed)
 
