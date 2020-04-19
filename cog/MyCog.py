@@ -22,7 +22,7 @@ class MyCog(commands.Cog):
     async def drug(self, ctx, arg):
         mod = myMod()
         user = ctx.author.name
-        embed_description = f"{user} took '{arg}' to drink at {datetime.now().strftime('%H:%M')}"
+        embed_description = f"{user} took '{arg}' at {datetime.now().strftime('%H:%M')}"
         icon = f'https://cdn.discordapp.com/avatars/{str(ctx.author.id)}/{ctx.author.avatar}.png'
         embed=discord.Embed(title='のんだ', description=embed_description, color=0xff4dd8)
         embed.set_author(name=user, icon_url=icon)
