@@ -30,7 +30,7 @@ class MyCog(commands.Cog):
 
         bot_icon = self.icon_url.format(
             id = str(self.bot_id),
-            avatart = bot.avatar,
+            avatar = bot.avatar,
         )
 
         icon = self.icon_url.format(
