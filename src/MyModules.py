@@ -85,3 +85,37 @@ class MyModules:
         except:
             cnx.rollback()
             return False
+
+    def get_drug_use_history(self, user):
+        sql = "SELECT `user`, `drug_name`, `created_at` FROM drug_use_history WHERE `user` = '{user}'".format(
+            user = user,
+        )
+
+        cnx = self.__db_connect()
+        cur = cnx.cursor(dictionary=True)
+        try:
+            cur.execute(sql)
+            response = cur.fetchall()
+            cur.close()
+        except Exception as e:
+            print(e)
+            raise
+
+        return response
+
+    def get_drug_use_count(self, user):
+        sql = "SELECT `user`, `drug_name`, COUNT(`drug_name`) AS count FROM drug_use_history WHERE `user` = '{user}' GROUP BY `drug_name`".format(
+            user = user,
+        )
+
+        cnx = self.__db_connect()
+        cur = cnx.cursor(dictionary=True)
+        try:
+            cur.execute(sql)
+            response = cur.fetchall()
+            cur.close()
+        except Exception as e:
+            print(e)
+            raise
+
+        return response
