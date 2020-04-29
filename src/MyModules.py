@@ -23,27 +23,6 @@ class MyModules:
             print(e)
             raise
 
-    def save_use_drug_history(self, user, drug_name):
-        url = self.__get_drug_mapping_data(drug_name)
-        if not url:
-            return False
-
-        sql = "INSERT INTO `{table}` (user, drug_name, url) VALUES ('{user}', '{drug}', '{url}')".format(
-            table = 'drug_use_history',
-            user = user,
-            drug = drug_name,
-            url = url
-        )
-        cnx = self.__db_connect()
-        cur = cnx.cursor()
-        try:
-            cur.execute(sql)
-            cnx.commit()
-            return True
-        except:
-            cnx.rollback()
-            return False
-
     def __create_drug_mapping_data(self, drug_name: str):
 
         url = wikipediaSearch(drug_name)
@@ -85,3 +64,24 @@ class MyModules:
             return result
 
         return result[0]['url']
+
+    def save_use_drug_history(self, user, drug_name):
+        url = self.__get_drug_mapping_data(drug_name)
+        if not url:
+            return False
+
+        sql = "INSERT INTO `{table}` (user, drug_name, url) VALUES ('{user}', '{drug}', '{url}')".format(
+            table = 'drug_use_history',
+            user = user,
+            drug = drug_name,
+            url = url,
+        )
+        cnx = self.__db_connect()
+        cur = cnx.cursor()
+        try:
+            cur.execute(sql)
+            cnx.commit()
+            return True
+        except:
+            cnx.rollback()
+            return False
