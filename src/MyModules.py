@@ -65,15 +65,16 @@ class MyModules:
 
         return result[0]['url']
 
-    def save_use_drug_history(self, user, drug_name):
+    def save_use_drug_history(self, user: str, drug_name: str, amount: int):
         url = self.__get_drug_mapping_data(drug_name)
         if not url:
             return False
 
-        sql = "INSERT INTO `{table}` (user, drug_name, url) VALUES ('{user}', '{drug}', '{url}')".format(
+        sql = "INSERT INTO `{table}` (user, drug_name, amount, url) VALUES ('{user}', '{drug}', {amount}, '{url}')".format(
             table = 'drug_use_history',
             user = user,
             drug = drug_name,
+            amount = amount,
             url = url,
         )
         cnx = self.__db_connect()
@@ -87,7 +88,7 @@ class MyModules:
             return False
 
     def get_drug_use_history(self, user):
-        sql = "SELECT `user`, `drug_name`, `created_at` FROM drug_use_history WHERE `user` = '{user}'".format(
+        sql = "SELECT `user`, `drug_name`, `amount`, `created_at` FROM drug_use_history WHERE `user` = '{user}'".format(
             user = user,
         )
 

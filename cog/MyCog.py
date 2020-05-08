@@ -21,12 +21,12 @@ class MyCog(commands.Cog):
         self.sleep_alert.start()
 
     @commands.command(name='のんだ')
-    async def drug(self, ctx, arg):
+    async def drug(self, ctx, drug_name: str, amount: int):
 
         mod = myMod()
         user = ctx.author.name
         bot  = self.bot.get_user(self.bot_id)
-        embed_description = f"{user} took '{arg}' at {datetime.now().strftime('%H:%M')}"
+        embed_description = f"{user} took '{drug_name} {amount}mg' at {datetime.now().strftime('%H:%M')}"
 
         bot_icon = self.icon_url.format(
             id = str(self.bot_id),
@@ -42,7 +42,7 @@ class MyCog(commands.Cog):
         embed.set_author(name=user, icon_url=icon)
         embed.set_thumbnail(url=bot_icon)
         embed.set_footer(text='NewWorldHandyman')
-        if not mod.save_use_drug_history(user, arg):
+        if not mod.save_use_drug_history(user, drug_name, amount):
             embed.add_field(name="", value="薬物の検出に失敗しました", inline=True)
             await ctx.send(embed=embed)
 
