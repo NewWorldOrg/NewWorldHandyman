@@ -70,7 +70,7 @@ class MyCog(commands.Cog):
             return False
 
         for row in list_by_user:
-            embed_description += f"{row['user']}: {row['drug_name']} at {row['created_at']}\n"
+            embed_description += f"{row['user']}: {row['drug_name']} {row['amount']}mg at {row['created_at']}\n"
 
         embed = discord.Embed(title=f'drug use history by {arg}', description=embed_description, color=0xff4dd8)
         embed.set_author(name='NewWorldHandyman', icon_url=icon)
