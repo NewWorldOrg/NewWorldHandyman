@@ -105,7 +105,7 @@ class MyModules:
         return response
 
     def get_drug_use_count(self, user):
-        sql = "SELECT `user`, `drug_name`, COUNT(`drug_name`) AS count FROM drug_use_history WHERE `user` = '{user}' GROUP BY `drug_name`".format(
+        sql = "SELECT `user`, `drug_name`, COUNT(`drug_name`), SUM(`amount`) as amount AS count FROM drug_use_history WHERE `user` = '{user}' GROUP BY `drug_name`".format(
             user = user,
         )
 
