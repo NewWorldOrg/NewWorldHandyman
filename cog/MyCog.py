@@ -21,7 +21,7 @@ class MyCog(commands.Cog):
         self.sleep_alert.start()
 
     @commands.command(name='のんだ')
-    async def drug(self, ctx, drug_name: str, amount: int):
+    async def drug(self, ctx, drug_name: str, amount: float):
 
         mod = myMod()
         user = ctx.author.name
