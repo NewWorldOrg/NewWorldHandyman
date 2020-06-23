@@ -38,15 +38,51 @@ class MyCog(commands.Cog):
             avatar = ctx.author.avatar,
         )
 
+        if not mod.save_use_drug_history(user, drug_name, amount):
+            embed = discord.Embed(title='のんだ', description='飲むな', color=0xff4dd8)
+            embed.set_author(name=bot, icon_url=bot_icon)
+            embed.add_field(name="失敗", value="登録されていない薬物です", inline=True)
+            await ctx.send(embed=embed)
+            return False
+
         embed=discord.Embed(title='のんだ', description=embed_description, color=0xff4dd8)
         embed.set_author(name=user, icon_url=icon)
         embed.set_thumbnail(url=bot_icon)
         embed.set_footer(text='NewWorldHandyman')
-        if not mod.save_use_drug_history(user, drug_name, amount):
-            embed.add_field(name="", value="薬物の検出に失敗しました", inline=True)
+        await ctx.send(embed=embed)
+
+    @commands.command(name='薬物登録')
+    async def save_drug_data(self, ctx, drug_name: str):
+
+        mod = myMod()
+        user = ctx.author.name
+        bot  = self.bot.get_user(self.bot_id)
+        embed_description = f"{drug_name}を登録しました"
+
+        bot_icon = self.icon_url.format(
+            id = str(self.bot_id),
+            avatar = bot.avatar,
+        )
+
+        icon = self.icon_url.format(
+            id = str(ctx.author.id),
+            avatar = ctx.author.avatar,
+        )
+
+        if not mod.save_drug_mapping_data(drug_name):
+            embed = discord.Embed(title='薬物登録', description='見てるんだぞ', color=0xff4dd8)
+            embed.set_author(name=bot, icon_url=bot_icon)
+            embed.add_field(name="失敗", value="登録できない薬物です", inline=True)
             await ctx.send(embed=embed)
+            return False
+
+        embed=discord.Embed(title='薬物登録', description=embed_description, color=0xff4dd8)
+        embed.set_author(name=user, icon_url=icon)
+        embed.set_thumbnail(url=bot_icon)
+        embed.set_footer(text='NewWorldHandyman')
 
         await ctx.send(embed=embed)
+
 
     @commands.command()
     async def hello(self, ctx):

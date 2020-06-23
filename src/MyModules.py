@@ -23,7 +23,27 @@ class MyModules:
             print(e)
             raise
 
-    def __create_drug_mapping_data(self, drug_name: str):
+    def __insert(self, sql: str):
+        cnx = self.__db_connect()
+        cur = cnx.cursor()
+        try:
+            cur.execute(sql)
+            cnx.commit()
+            return True
+        except:
+            cnx.rollback()
+            return False
+
+    def __select(self, sql: str):
+       cnx = self.__db_connect()
+       cur = cnx.cursor(dictionary=True)
+       try:
+           cur.execute(sql)
+           return cur.fetchall()
+       except:
+           raise
+
+    def save_drug_mapping_data(self, drug_name: str):
 
         url = wikipediaSearch(drug_name)
 
@@ -35,38 +55,30 @@ class MyModules:
             drug = drug_name,
             url = url,
         )
-        cnx = self.__db_connect()
-        cur = cnx.cursor()
+
         try:
-            cur.execute(sql)
-            cnx.commit()
+            self.__insert(sql)
+            return True
         except:
             cnx.rollback()
             raise
 
-        return url
 
-    def  __get_drug_mapping_data(self, drug_name: str):
+    def  get_drug_data(self, drug_name: str):
         sql = "SELECT `url` FROM `{table_name}` WHERE drug='{drug}'".format(table_name='drug_url_mapping_data', drug=drug_name)
-        cnx = self.__db_connect()
-        cur = cnx.cursor(dictionary=True)
+
         try:
-            cur.execute(sql)
-            result = cur.fetchall()
-            cur.close()
+            result = self.__select(sql)
         except:
             raise
 
         if not result:
-            result = self.__create_drug_mapping_data(drug_name)
-            if not result:
-                return False
-            return result
+            return False
 
         return result[0]['url']
 
     def save_use_drug_history(self, user: str, drug_name: str, amount: int):
-        url = self.__get_drug_mapping_data(drug_name)
+        url = self.get_drug_data(drug_name)
         if not url:
             return False
 
@@ -77,27 +89,22 @@ class MyModules:
             amount = amount,
             url = url,
         )
-        cnx = self.__db_connect()
-        cur = cnx.cursor()
+
         try:
-            cur.execute(sql)
-            cnx.commit()
+            self.__insert(sql)
             return True
         except:
             cnx.rollback()
             return False
 
     def get_drug_use_history(self, user):
+
         sql = "SELECT `user`, `drug_name`, `amount`, `created_at` FROM drug_use_history WHERE `user` = '{user}'".format(
             user = user,
         )
 
-        cnx = self.__db_connect()
-        cur = cnx.cursor(dictionary=True)
         try:
-            cur.execute(sql)
-            response = cur.fetchall()
-            cur.close()
+            response = self.__select(sql)
         except Exception as e:
             print(e)
             raise
@@ -109,12 +116,8 @@ class MyModules:
             user = user,
         )
 
-        cnx = self.__db_connect()
-        cur = cnx.cursor(dictionary=True)
         try:
-            cur.execute(sql)
-            response = cur.fetchall()
-            cur.close()
+            response = self.__select(sql)
         except Exception as e:
             print(e)
             raise
