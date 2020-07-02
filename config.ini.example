@@ -4,7 +4,7 @@ BOT_ID =
 
 [NEW_WORLD]
 GENERAL_TEXT_CHANNEL_ID =
-
+EMPEROR_ID =
 [DB]
 USER = root
 PASSWD = root

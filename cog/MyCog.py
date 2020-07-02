@@ -1,5 +1,6 @@
 import configparser
 import os
+import math
 
 import discord
 from discord.ext import tasks, commands
@@ -17,6 +18,7 @@ class MyCog(commands.Cog):
         self.general_text_channel_id = int(conf['NEW_WORLD']['GENERAL_TEXT_CHANNEL_ID'])
         self.bot = bot
         self.bot_id = int(conf['DEFAULT']['BOT_ID'])
+        self.emperor_id = int(conf['NEW_WORLD']['EMPEROR_ID'])
         self.icon_url = 'https://cdn.discordapp.com/avatars/{id}/{avatar}.png'
         self.sleep_alert.start()
 
@@ -37,6 +39,17 @@ class MyCog(commands.Cog):
             id = str(ctx.author.id),
             avatar = ctx.author.avatar,
         )
+
+        if amount == 0 or math.floor(amount * 10 ** 2) / (10 ** 2) == 0:
+            emperor = self.bot.get_user(self.emperor_id)
+            embed = discord.Embed(title='のんだ', description='飲んでねぇだろ', color=0xff4dd8)
+            embed.set_author(name=bot, icon_url=bot_icon)
+            embed.add_field(name="失敗", value=f"大変畏れ多いことではありますがこの件は陛下に奏上させていただきます\n{emperor.mention}", inline=True)
+            await ctx.send(embed=embed)
+            return False
+
+
+        amount = math.floor(amount * 10 ** 2) / (10 ** 2)
 
         if not mod.save_use_drug_history(user, drug_name, amount):
             embed = discord.Embed(title='のんだ', description='飲むな', color=0xff4dd8)
