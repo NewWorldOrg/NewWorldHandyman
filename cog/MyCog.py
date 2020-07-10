@@ -44,7 +44,13 @@ class MyCog(commands.Cog):
             emperor = self.bot.get_user(self.emperor_id)
             embed = discord.Embed(title='のんだ', description='飲んでねぇだろ', color=0xff4dd8)
             embed.set_author(name=bot, icon_url=bot_icon)
-            embed.add_field(name="失敗", value=f"大変畏れ多いことではありますがこの件は陛下に奏上させていただきます\n{emperor.mention}", inline=True)
+            reportToTheThrone = (
+                "今日かくの如き自体を招き、\n"
+                "陛下の御心を騒がせ奉りました事は"
+                "臣の不明の致しますところ、\n"
+                "誠に慚愧に耐えません。\n"
+            )
+            embed.add_field(name="失敗", value=f"{reportToTheThrone}{emperor.mention}", inline=True)
             await ctx.send(embed=embed)
             return False
 
