@@ -40,7 +40,9 @@ class MyCog(commands.Cog):
             avatar = ctx.author.avatar,
         )
 
-        if amount == 0 or math.floor(amount * 10 ** 2) / (10 ** 2) == 0:
+        amount = math.floor(amount * 10 ** 2) / (10 ** 2)
+
+        if amount <= 0:
             emperor = self.bot.get_user(self.emperor_id)
             embed = discord.Embed(title='のんだ', description='飲んでねぇだろ', color=0xff4dd8)
             embed.set_author(name=bot, icon_url=bot_icon)
