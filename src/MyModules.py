@@ -123,3 +123,13 @@ class MyModules:
             raise
 
         return response
+
+    def get_registered_drug_list(self):
+        sql = "SELECT `drug` FROM `drug_url_mapping_data`"
+        try:
+            response = self.__select(sql)
+        except Exception as e:
+            print(e)
+            raise
+
+        return response

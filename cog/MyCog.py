@@ -157,6 +157,25 @@ class MyCog(commands.Cog):
         embed.set_author(name='NewWorldHandyman', icon_url=icon)
         await ctx.send(embed=embed)
 
+    @commands.command(name='薬物一覧')
+    async def get_registerd_drug_list(self, ctx):
+        mod = myMod()
+        bot = self.bot.get_user(self.bot_id)
+        icon = self.icon_url.format(
+            id = str(self.bot_id),
+            avatar = bot.avatar,
+        )
+
+        embed_description = '>>> '
+        list_by_user = mod.get_registered_drug_list()
+
+        for row in list_by_user:
+            embed_description += f"{row['drug']}\n"
+
+        embed = discord.Embed(title=f'registerd drug list', description=embed_description, color=0xff4dd8)
+        embed.set_author(name='NewWorldHandyman', icon_url=icon)
+        await ctx.send(embed=embed)
+        
 
     # 毎晩2時に睡眠アラートを流す
     @tasks.loop(minutes=1)
