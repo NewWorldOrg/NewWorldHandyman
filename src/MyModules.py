@@ -133,3 +133,15 @@ class MyModules:
             raise
 
         return response
+
+    def get_the_last_time_of_medication(self, user: str):
+        sql = "SELECT created_at FROM `drug_use_history` WHERE user = '{user}' ORDER BY id DESC LIMIT 1".format(
+            user = user
+        )
+        try:
+            response = self.__select(sql)
+        except Exception as e:
+            print(e)
+            raise
+
+        return response    

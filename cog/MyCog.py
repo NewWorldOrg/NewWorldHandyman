@@ -175,7 +175,32 @@ class MyCog(commands.Cog):
         embed = discord.Embed(title=f'registerd drug list', description=embed_description, color=0xff4dd8)
         embed.set_author(name='NewWorldHandyman', icon_url=icon)
         await ctx.send(embed=embed)
+
+    @commands.command(name='キマってきた')
+    async def effect_manifestation(self, ctx):
+        mod = myMod()
+        bot = self.bot.get_user(self.bot_id)
+        user = ctx.author.name
         
+        the_last_time_of_medication = mod.get_the_last_time_of_medication(user)
+
+        bot_icon = self.icon_url.format(
+            id = str(self.bot_id),
+            avatar = bot.avatar,
+        )
+
+        icon = self.icon_url.format(
+            id = str(ctx.author.id),
+            avatar = ctx.author.avatar,
+        )
+        time = datetime.now() - the_last_time_of_medication[0]['created_at']
+        minutes = (time.seconds % 3600) // 60
+        embed_description = 'It took {} minutes to get tript'.format(minutes)
+        embed=discord.Embed(title='キマるな', description=embed_description, color=0xff4dd8)
+        embed.set_author(name=user, icon_url=icon)
+        embed.set_thumbnail(url=bot_icon)
+        embed.set_footer(text='NewWorldHandyman')
+        await ctx.send(embed=embed)
 
     # 毎晩2時に睡眠アラートを流す
     @tasks.loop(minutes=1)
