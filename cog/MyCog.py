@@ -20,7 +20,7 @@ class MyCog(commands.Cog):
         self.bot_id = int(conf['DEFAULT']['BOT_ID'])
         self.emperor_id = int(conf['NEW_WORLD']['EMPEROR_ID'])
         self.icon_url = 'https://cdn.discordapp.com/avatars/{id}/{avatar}.png'
-        self.sleep_alert.start()
+        #self.sleep_alert.start()
 
     @commands.command(name='のんだ')
     async def drug(self, ctx, drug_name: str, amount: float):
@@ -202,19 +202,19 @@ class MyCog(commands.Cog):
         embed.set_footer(text='NewWorldHandyman')
         await ctx.send(embed=embed)
 
-    # 毎晩2時に睡眠アラートを流す
-    @tasks.loop(minutes=1)
+    # 毎晩2時に睡眠アラートを流す -> 形骸化の為廃止(2020/09/18)
+    '''@tasks.loop(minutes=1)
     async def sleep_alert(self):
         now = datetime.now().strftime('%H:%M')
         if now == '02:00':
             channel = self.bot.get_channel(self.general_text_channel_id)
             await channel.send('寝ろ')
-
+    
     @sleep_alert.before_loop
     async def before_sleep_alert(self):
         print('waiting...')
         await self.bot.wait_until_ready()
-
+    '''
 
 def setup(bot):
     bot.add_cog(MyCog(bot))
