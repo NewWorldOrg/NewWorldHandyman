@@ -1,5 +1,5 @@
 __pycache__
-config.ini
+.env
 docker-compose.yml
 docker/db/*
 !docker/db/.gitkeep

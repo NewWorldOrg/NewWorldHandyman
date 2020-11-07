@@ -12,6 +12,7 @@ start = "python main.py"
 discord-py = "*"
 wikipedia = "*"
 mysql-connector = "*"
+python-dotenv = "*"
 
 [requires]
 python_version = "3.8.x"
