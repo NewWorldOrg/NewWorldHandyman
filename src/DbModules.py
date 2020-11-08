@@ -8,7 +8,7 @@ class DbModule:
         try:
             db = connector.connect(
                 user = os.getenv('DB_USER'),
-                passwd = os.getenv('DB_PASSWORD'),
+                password = os.getenv('DB_PASSWD'),
                 host = os.getenv('DB_HOST'),
                 db = os.getenv('DB_DATABASE'),
             )
