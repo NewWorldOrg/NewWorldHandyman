@@ -48,21 +48,19 @@ class MyModules:
         url = self.get_drug_data(drug_name)
         if not url:
             return False
-
-        sql = "INSERT INTO `{table}` (user, drug_name, amount, url) VALUES ('{user}', '{drug}', {amount}, '{url}')".format(
-            table = 'drug_use_history',
-            user = user,
-            drug = drug_name,
-            amount = amount,
-            url = url,
-        )
+        amount = str(amount)
+        value = {
+            'user': user,
+            'drug_name': drug_name,
+            'amount': amount,
+            'url': url,
+        }
 
         try:
-            self.db.insert(sql)
+            self.db.insert('drug_use_history', value)
             return True
         except:
-            cnx.rollback()
-            return False
+            raise
 
     def get_drug_use_history(self, user):
 
