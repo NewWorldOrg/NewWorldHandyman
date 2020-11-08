@@ -1,5 +1,5 @@
 from discord.ext import commands
-import configparser
+from dotenv import load_dotenv
 import os
 
 class MyBot(commands.Bot):
@@ -19,12 +19,12 @@ class MyBot(commands.Bot):
         print("I'm ready !")
 
 def main():
-    base = os.path.dirname(os.path.abspath(__file__))
-    conf_path = os.path.normpath(os.path.join(base))
-    conf = configparser.ConfigParser()
-    conf.read(conf_path+'/config.ini', encoding='utf-8')
+    base_path = os.path.dirname(os.path.abspath(__file__))
+    dotenv_path = os.path.join(base_path, '.env')
+    load_dotenv(dotenv_path)
+
     client = MyBot(command_prefix='$')
-    client.run(conf['DEFAULT']['BOT_TOKEN'])
+    client.run(os.getenv('BOT_TOKEN'))
 
 if __name__ == '__main__':
     main()
