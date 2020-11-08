@@ -11,14 +11,10 @@ from src.MyModules import MyModules as myMod
 class MyCog(commands.Cog):
 
     def __init__(self, bot):
-        base = os.path.dirname(os.path.abspath(__file__))
-        conf_path = os.path.normpath(os.path.join(base, '../'))
-        conf = configparser.ConfigParser()
-        conf.read(conf_path+'/config.ini', encoding='utf-8')
-        self.general_text_channel_id = int(conf['NEW_WORLD']['GENERAL_TEXT_CHANNEL_ID'])
+        self.general_text_channel_id = int(os.getenv('GENERAL_TEXT_CHANNEL_ID'))
         self.bot = bot
-        self.bot_id = int(conf['DEFAULT']['BOT_ID'])
-        self.emperor_id = int(conf['NEW_WORLD']['EMPEROR_ID'])
+        self.bot_id = int(os.getenv('BOT_ID'))
+        self.emperor_id = int(os.getenv('EMPEROR_ID'))
         self.icon_url = 'https://cdn.discordapp.com/avatars/{id}/{avatar}.png'
         #self.sleep_alert.start()
 

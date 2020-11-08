@@ -3,45 +3,12 @@ import configparser
 import os
 
 from src.WikiSearch import wikipediaSearch
+from src.DbModules import DbModule as db
 
 class MyModules:
 
-    def __db_connect(self):
-        base = os.path.dirname(os.path.abspath(__file__))
-        conf_path = os.path.normpath(os.path.join(base, '../'))
-        conf = configparser.ConfigParser()
-        conf.read(conf_path+'/config.ini', encoding='utf-8')
-        try:
-            db = connector.connect(
-                user = conf['DB']['USER'],
-                passwd = conf['DB']['PASSWD'],
-                host = conf['DB']['HOST'],
-                db = conf['DB']['DATABASE'],
-            )
-            return db
-        except Exception as e:
-            print(e)
-            raise
-
-    def __insert(self, sql: str):
-        cnx = self.__db_connect()
-        cur = cnx.cursor()
-        try:
-            cur.execute(sql)
-            cnx.commit()
-            return True
-        except:
-            cnx.rollback()
-            return False
-
-    def __select(self, sql: str):
-       cnx = self.__db_connect()
-       cur = cnx.cursor(dictionary=True)
-       try:
-           cur.execute(sql)
-           return cur.fetchall()
-       except:
-           raise
+    def __init__(self):
+        self.db = db()
 
     def save_drug_mapping_data(self, drug_name: str):
 
@@ -57,7 +24,7 @@ class MyModules:
         )
 
         try:
-            self.__insert(sql)
+            self.db.insert(sql)
             return True
         except:
             cnx.rollback()
@@ -68,7 +35,7 @@ class MyModules:
         sql = "SELECT `url` FROM `{table_name}` WHERE drug='{drug}'".format(table_name='drug_url_mapping_data', drug=drug_name)
 
         try:
-            result = self.__select(sql)
+            result = self.db.select(sql)
         except:
             raise
 
@@ -91,7 +58,7 @@ class MyModules:
         )
 
         try:
-            self.__insert(sql)
+            self.db.insert(sql)
             return True
         except:
             cnx.rollback()
@@ -104,7 +71,7 @@ class MyModules:
         )
 
         try:
-            response = self.__select(sql)
+            response = self.db.select(sql)
         except Exception as e:
             print(e)
             raise
@@ -117,7 +84,7 @@ class MyModules:
         )
 
         try:
-            response = self.__select(sql)
+            response = self.db.select(sql)
         except Exception as e:
             print(e)
             raise
@@ -127,7 +94,7 @@ class MyModules:
     def get_registered_drug_list(self):
         sql = "SELECT `drug` FROM `drug_url_mapping_data`"
         try:
-            response = self.__select(sql)
+            response = self.db.select(sql)
         except Exception as e:
             print(e)
             raise
@@ -139,9 +106,24 @@ class MyModules:
             user = user
         )
         try:
-            response = self.__select(sql)
+            response = self.db.select(sql)
         except Exception as e:
             print(e)
             raise
 
         return response    
+
+    def all_member_register(self, member_data):
+
+        colums = [
+            'user_id',
+            'name',
+            'icon_url',
+            'password',
+            'access_token',
+        ]
+
+        self.db.multiple_insert('users', colums, member_data)
+
+    def update_user_name(self, user_id: int, after_name: str):
+        sql = ""
