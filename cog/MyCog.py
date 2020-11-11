@@ -211,20 +211,26 @@ class MyCog(commands.Cog):
         print('waiting...')
         await self.bot.wait_until_ready()
     '''
+
+    @commands.command()
+    async def member(self, ctx):
+        for member in ctx.guild.members:
+            await ctx.send(member.name)
+
     @commands.command()
     async def member_register(self, ctx):
         mod = myMod()
-        members = []
-        for member in ctx.guild.members:
-            members.append([
-                member.id,
-                member.name,
-                member.avatar,
-                '',
-                '',
-            ])
-            
-        mod.all_member_register(members)
+        
+        print(ctx.author.avatar)
+
+        member = {
+            'user_id': str(ctx.author.id),
+            'name': ctx.author.display_name,
+            'icon_url': self.icon_url.format(id = ctx.author.id, avatar = ctx.author.avatar),
+            'password': '',
+        }
+                
+        mod.member_register(member)
 
     @commands.Cog.listener()
     async def on_member_update(self, before, after):

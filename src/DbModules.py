@@ -35,7 +35,7 @@ class DbModule:
             columns = ', '.join(columns),
             values =  ', '.join(str('\'' + parameter + '\'') for parameter in parameters)
         )
-
+        
         try:
             cur.execute(sql)
             cnx.commit()

@@ -11,23 +11,23 @@ class MyModules:
         self.db = db()
 
     def save_drug_mapping_data(self, drug_name: str):
+        
+        table = 'drug_url_mapping_data'
 
         url = wikipediaSearch(drug_name)
 
         if not url:
             return False
 
-        sql = "INSERT INTO `{table}` (drug, url) VALUES ('{drug}', '{url}')".format(
-            table = 'drug_url_mapping_data',
-            drug = drug_name,
-            url = url,
-        )
+        value = {
+            'drug': drug_name,
+            'url': url,
+        }
 
         try:
-            self.db.insert(sql)
+            self.db.insert(table, value)
             return True
         except:
-            cnx.rollback()
             raise
 
 
@@ -111,17 +111,9 @@ class MyModules:
 
         return response    
 
-    def all_member_register(self, member_data):
+    def member_register(self, member_data):
 
-        colums = [
-            'user_id',
-            'name',
-            'icon_url',
-            'password',
-            'access_token',
-        ]
-
-        self.db.multiple_insert('users', colums, member_data)
+        self.db.insert('users', member_data)
 
     def update_user_name(self, user_id: int, after_name: str):
         sql = ""
