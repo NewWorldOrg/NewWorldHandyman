@@ -33,7 +33,7 @@ class MyModules:
 
     def get_drug_data(self, drug_name: str):
         sql = "SELECT `id` FROM `{table_name}` WHERE drug='{drug}'".format(
-            table_name = 'drug_url_mapping_data',
+            table_name = 'drugs',
             drug = drug_name
         )
 
