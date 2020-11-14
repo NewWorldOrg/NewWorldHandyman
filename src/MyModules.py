@@ -12,7 +12,7 @@ class MyModules:
 
     def save_drug_mapping_data(self, drug_name: str):
         
-        table = 'drug_url_mapping_data'
+        table = 'drugs'
 
         url = wikipediaSearch(drug_name)
 
@@ -32,7 +32,8 @@ class MyModules:
 
 
     def get_drug_data(self, drug_name: str):
-        sql = "SELECT `id` FROM `{table_name}` WHERE drug='{drug}'".format(
+
+        sql = "SELECT `id` FROM `{table_name}` WHERE drug_name='{drug}'".format(
             table_name = 'drugs',
             drug = drug_name
         )
@@ -71,7 +72,6 @@ class MyModules:
             'user_id': str(user['id']),
             'drug_id': str(drug_id),
             'amount': str(amount),
-
         }
 
         try:
@@ -81,8 +81,8 @@ class MyModules:
             raise
 
     def get_drug_use_history(self, user):
-
-        sql = "SELECT `user`, `drug_name`, `amount`, `created_at` FROM drug_use_history WHERE `user` = '{user}'".format(
+        
+        sql = "SELECT `user`, `drug_name`, `amount`, `created_at` FROM {table} WHERE `user` = '{user}'".format(
             user = user,
         )
 
@@ -108,7 +108,7 @@ class MyModules:
         return response
 
     def get_registered_drug_list(self):
-        sql = "SELECT `drug` FROM `drug_url_mapping_data`"
+        sql = "SELECT `drug` FROM `drugs`"
         try:
             response = self.db.select(sql)
         except Exception as e:
