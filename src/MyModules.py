@@ -31,8 +31,11 @@ class MyModules:
             raise
 
 
-    def  get_drug_data(self, drug_name: str):
-        sql = "SELECT `url` FROM `{table_name}` WHERE drug='{drug}'".format(table_name='drug_url_mapping_data', drug=drug_name)
+    def get_drug_data(self, drug_name: str):
+        sql = "SELECT `id` FROM `{table_name}` WHERE drug='{drug}'".format(
+            table_name = 'drug_url_mapping_data',
+            drug = drug_name
+        )
 
         try:
             result = self.db.select(sql)
@@ -42,22 +45,37 @@ class MyModules:
         if not result:
             return False
 
-        return result[0]['url']
+        return result[0]['id']
 
-    def save_use_drug_history(self, user: str, drug_name: str, amount: int):
-        url = self.get_drug_data(drug_name)
-        if not url:
+    def get_user(self, user_id: int):
+        table = 'users'
+        sql = "SELECT * FROM `{table}` WHERE user_id = '{user_id}'".format(
+            table = table,
+            user_id = user_id,
+        )
+
+        try:
+            result = self.db.select(sql)
+        except:
+            raise
+
+        return result[0]
+
+
+    def save_use_drug_history(self, user_id: int, drug_name: str, amount: int):
+        drug_id = self.get_drug_data(drug_name)
+        if not drug_id:
             return False
-        amount = str(amount)
+        user = self.get_user(user_id)
         value = {
-            'user': user,
-            'drug_name': drug_name,
-            'amount': amount,
-            'url': url,
+            'user_id': str(user['id']),
+            'drug_id': str(drug_id),
+            'amount': str(amount),
+
         }
 
         try:
-            self.db.insert('drug_use_history', value)
+            self.db.insert('medication_histories', value)
             return True
         except:
             raise

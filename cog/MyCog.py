@@ -22,7 +22,7 @@ class MyCog(commands.Cog):
     async def drug(self, ctx, drug_name: str, amount: float):
 
         mod = myMod()
-        user = ctx.author.name
+        user = ctx.author
         bot  = self.bot.get_user(self.bot_id)
         embed_description = f"{user} took '{drug_name} {amount}mg' at {datetime.now().strftime('%H:%M')}"
 
@@ -55,7 +55,7 @@ class MyCog(commands.Cog):
 
         amount = math.floor(amount * 10 ** 2) / (10 ** 2)
 
-        if not mod.save_use_drug_history(user, drug_name, amount):
+        if not mod.save_use_drug_history(user.id, drug_name, amount):
             embed = discord.Embed(title='のんだ', description='飲むな', color=0xff4dd8)
             embed.set_author(name=bot, icon_url=bot_icon)
             embed.add_field(name="失敗", value="登録されていない薬物です", inline=True)
