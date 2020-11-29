@@ -8,6 +8,7 @@ from datetime import datetime
 
 from src.MyModules import MyModules as myMod
 
+
 class MyCog(commands.Cog):
 
     def __init__(self, bot):
@@ -16,24 +17,24 @@ class MyCog(commands.Cog):
         self.bot_id = int(os.getenv('BOT_ID'))
         self.emperor_id = int(os.getenv('EMPEROR_ID'))
         self.icon_url = 'https://cdn.discordapp.com/avatars/{id}/{avatar}.png'
-        #self.sleep_alert.start()
+        # self.sleep_alert.start()
 
     @commands.command(name='のんだ')
     async def drug(self, ctx, drug_name: str, amount: float):
 
         mod = myMod()
         user = ctx.author
-        bot  = self.bot.get_user(self.bot_id)
+        bot = self.bot.get_user(self.bot_id)
         embed_description = f"{user} took '{drug_name} {amount}mg' at {datetime.now().strftime('%H:%M')}"
 
         bot_icon = self.icon_url.format(
-            id = str(self.bot_id),
-            avatar = bot.avatar,
+            id=str(self.bot_id),
+            avatar=bot.avatar,
         )
 
         icon = self.icon_url.format(
-            id = str(ctx.author.id),
-            avatar = ctx.author.avatar,
+            id=str(ctx.author.id),
+            avatar=ctx.author.avatar,
         )
 
         amount = math.floor(amount * 10 ** 2) / (10 ** 2)
@@ -52,7 +53,6 @@ class MyCog(commands.Cog):
             await ctx.send(embed=embed)
             return False
 
-
         amount = math.floor(amount * 10 ** 2) / (10 ** 2)
 
         if not mod.save_use_drug_history(user.id, drug_name, amount):
@@ -62,7 +62,7 @@ class MyCog(commands.Cog):
             await ctx.send(embed=embed)
             return False
 
-        embed=discord.Embed(title='のんだ', description=embed_description, color=0xff4dd8)
+        embed = discord.Embed(title='のんだ', description=embed_description, color=0xff4dd8)
         embed.set_author(name=user, icon_url=icon)
         embed.set_thumbnail(url=bot_icon)
         embed.set_footer(text='NewWorldHandyman')
@@ -73,17 +73,17 @@ class MyCog(commands.Cog):
 
         mod = myMod()
         user = ctx.author.name
-        bot  = self.bot.get_user(self.bot_id)
+        bot = self.bot.get_user(self.bot_id)
         embed_description = f"{drug_name}を登録しました"
 
         bot_icon = self.icon_url.format(
-            id = str(self.bot_id),
-            avatar = bot.avatar,
+            id=str(self.bot_id),
+            avatar=bot.avatar,
         )
 
         icon = self.icon_url.format(
-            id = str(ctx.author.id),
-            avatar = ctx.author.avatar,
+            id=str(ctx.author.id),
+            avatar=ctx.author.avatar,
         )
 
         if not mod.save_drug_mapping_data(drug_name):
@@ -93,13 +93,12 @@ class MyCog(commands.Cog):
             await ctx.send(embed=embed)
             return False
 
-        embed=discord.Embed(title='薬物登録', description=embed_description, color=0xff4dd8)
+        embed = discord.Embed(title='薬物登録', description=embed_description, color=0xff4dd8)
         embed.set_author(name=user, icon_url=icon)
         embed.set_thumbnail(url=bot_icon)
         embed.set_footer(text='NewWorldHandyman')
 
         await ctx.send(embed=embed)
-
 
     @commands.command()
     async def hello(self, ctx):
@@ -111,8 +110,8 @@ class MyCog(commands.Cog):
         bot = self.bot.get_user(self.bot_id)
 
         icon = self.icon_url.format(
-            id = str(self.bot_id),
-            avatar = bot.avatar,
+            id=str(self.bot_id),
+            avatar=bot.avatar,
         )
 
         embed_description = '>>> '
@@ -135,8 +134,8 @@ class MyCog(commands.Cog):
         bot = self.bot.get_user(self.bot_id)
 
         icon = self.icon_url.format(
-            id = str(self.bot_id),
-            avatar = bot.avatar,
+            id=str(self.bot_id),
+            avatar=bot.avatar,
         )
 
         embed_description = '>>> '
@@ -158,8 +157,8 @@ class MyCog(commands.Cog):
         mod = myMod()
         bot = self.bot.get_user(self.bot_id)
         icon = self.icon_url.format(
-            id = str(self.bot_id),
-            avatar = bot.avatar,
+            id=str(self.bot_id),
+            avatar=bot.avatar,
         )
 
         embed_description = '>>> '
@@ -177,22 +176,22 @@ class MyCog(commands.Cog):
         mod = myMod()
         bot = self.bot.get_user(self.bot_id)
         user = ctx.author.name
-        
+
         the_last_time_of_medication = mod.get_the_last_time_of_medication(user)
 
         bot_icon = self.icon_url.format(
-            id = str(self.bot_id),
-            avatar = bot.avatar,
+            id=str(self.bot_id),
+            avatar=bot.avatar,
         )
 
         icon = self.icon_url.format(
-            id = str(ctx.author.id),
-            avatar = ctx.author.avatar,
+            id=str(ctx.author.id),
+            avatar=ctx.author.avatar,
         )
         time = datetime.now() - the_last_time_of_medication[0]['created_at']
         minutes = (time.seconds % 3600) // 60
         embed_description = 'It took {} minutes to get trip'.format(minutes)
-        embed=discord.Embed(title='キマるな', description=embed_description, color=0xff4dd8)
+        embed = discord.Embed(title='キマるな', description=embed_description, color=0xff4dd8)
         embed.set_author(name=user, icon_url=icon)
         embed.set_thumbnail(url=bot_icon)
         embed.set_footer(text='NewWorldHandyman')
@@ -205,7 +204,7 @@ class MyCog(commands.Cog):
         if now == '02:00':
             channel = self.bot.get_channel(self.general_text_channel_id)
             await channel.send('寝ろ')
-    
+
     @sleep_alert.before_loop
     async def before_sleep_alert(self):
         print('waiting...')
@@ -220,16 +219,14 @@ class MyCog(commands.Cog):
     @commands.command()
     async def member_register(self, ctx):
         mod = myMod()
-        
-        print(ctx.author.avatar)
 
         member = {
             'user_id': str(ctx.author.id),
             'name': ctx.author.display_name,
-            'icon_url': self.icon_url.format(id = ctx.author.id, avatar = ctx.author.avatar),
+            'icon_url': self.icon_url.format(id=ctx.author.id, avatar=ctx.author.avatar),
             'password': '',
         }
-                
+
         mod.member_register(member)
 
     @commands.Cog.listener()

@@ -4,7 +4,7 @@ WORKDIR /code
 
 ADD . .
 
-RUN apk add --update-cache --no-cache gcc make musl-dev && \
+RUN apk add --update-cache --no-cache linux-headers g++ make && \
   pip install pipenv && pipenv install --system
 
 CMD ["python", "main.py"]

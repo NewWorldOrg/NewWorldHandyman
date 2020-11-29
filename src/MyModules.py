@@ -1,9 +1,6 @@
-import mysql.connector as connector
-import configparser
-import os
-
 from src.WikiSearch import wikipediaSearch
 from src.DbModules import DbModule as db
+
 
 class MyModules:
 
@@ -11,7 +8,7 @@ class MyModules:
         self.db = db()
 
     def save_drug_mapping_data(self, drug_name: str):
-        
+
         table = 'drugs'
 
         url = wikipediaSearch(drug_name)
@@ -30,12 +27,11 @@ class MyModules:
         except:
             raise
 
-
     def get_drug_data(self, drug_name: str):
 
         sql = "SELECT `id` FROM `{table_name}` WHERE drug_name='{drug}'".format(
-            table_name = 'drugs',
-            drug = drug_name
+            table_name='drugs',
+            drug=drug_name
         )
 
         try:
@@ -51,8 +47,8 @@ class MyModules:
     def get_user(self, user_id: int):
         table = 'users'
         sql = "SELECT * FROM `{table}` WHERE user_id = '{user_id}'".format(
-            table = table,
-            user_id = user_id,
+            table=table,
+            user_id=user_id,
         )
 
         try:
@@ -61,7 +57,6 @@ class MyModules:
             raise
 
         return result[0]
-
 
     def save_use_drug_history(self, user_id: int, drug_name: str, amount: int):
         drug_id = self.get_drug_data(drug_name)
@@ -81,9 +76,9 @@ class MyModules:
             raise
 
     def get_drug_use_history(self, user):
-        
+
         sql = "SELECT `user`, `drug_name`, `amount`, `created_at` FROM {table} WHERE `user` = '{user}'".format(
-            user = user,
+            user=user,
         )
 
         try:
@@ -96,7 +91,7 @@ class MyModules:
 
     def get_drug_use_count(self, user):
         sql = "SELECT `user`, `drug_name`, COUNT(`drug_name`) AS count, SUM(`amount`) AS amount FROM drug_use_history WHERE `user` = '{user}' GROUP BY `drug_name`".format(
-            user = user,
+            user=user,
         )
 
         try:
@@ -119,7 +114,7 @@ class MyModules:
 
     def get_the_last_time_of_medication(self, user: str):
         sql = "SELECT created_at FROM `drug_use_history` WHERE user = '{user}' ORDER BY id DESC LIMIT 1".format(
-            user = user
+            user=user
         )
         try:
             response = self.db.select(sql)
@@ -127,7 +122,7 @@ class MyModules:
             print(e)
             raise
 
-        return response    
+        return response
 
     def member_register(self, member_data):
 
