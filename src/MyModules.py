@@ -17,7 +17,7 @@ class MyModules:
             return False
 
         value = {
-            'drug': drug_name,
+            'drug_name': drug_name,
             'url': url,
         }
 
