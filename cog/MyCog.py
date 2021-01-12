@@ -3,7 +3,7 @@ import math
 
 import discord
 from discord.ext import tasks, commands
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 
 from src.MyModules import MyModules as myMod
 
@@ -16,6 +16,7 @@ class MyCog(commands.Cog):
         self.bot_id = int(os.getenv('BOT_ID'))
         self.emperor_id = int(os.getenv('EMPEROR_ID'))
         self.icon_url = 'https://cdn.discordapp.com/avatars/{id}/{avatar}.png'
+        self.JST = timezone(timedelta(hours=+9), 'JST')
         # self.sleep_alert.start()
 
     @commands.command(name='のんだ')
@@ -174,9 +175,9 @@ class MyCog(commands.Cog):
     async def effect_manifestation(self, ctx):
         mod = myMod()
         bot = self.bot.get_user(self.bot_id)
+        user_id = ctx.author.id
         user = ctx.author.name
-
-        the_last_time_of_medication = mod.get_the_last_time_of_medication(user)
+        the_last_time_of_medication = mod.get_the_last_time_of_medication(user_id)
 
         bot_icon = self.icon_url.format(
             id=str(self.bot_id),
@@ -187,7 +188,8 @@ class MyCog(commands.Cog):
             id=str(ctx.author.id),
             avatar=ctx.author.avatar,
         )
-        time = datetime.now() - the_last_time_of_medication[0]['created_at']
+        now = datetime.strptime(datetime.now(self.JST).strftime("%Y-%m-%d %H:%M:%S"), '%Y-%m-%d %H:%M:%S')
+        time = now - the_last_time_of_medication[0]['created_at']
         minutes = (time.seconds % 3600) // 60
         embed_description = 'It took {} minutes to get trip'.format(minutes)
         embed = discord.Embed(title='キマるな', description=embed_description, color=0xff4dd8)
