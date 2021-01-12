@@ -112,9 +112,11 @@ class MyModules:
 
         return response
 
-    def get_the_last_time_of_medication(self, user: str):
-        sql = "SELECT created_at FROM `drug_use_history` WHERE user = '{user}' ORDER BY id DESC LIMIT 1".format(
-            user=user
+
+
+    def get_the_last_time_of_medication(self, user_id: int):
+        sql = "SELECT mh.created_at FROM medication_histories as mh JOIN users ON {user_id} = users.`user_id` ORDER BY mh.id DESC LIMIT 1".format(
+            user_id = user_id
         )
         try:
             response = self.db.select(sql)
