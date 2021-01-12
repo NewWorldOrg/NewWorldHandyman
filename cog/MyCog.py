@@ -190,8 +190,7 @@ class MyCog(commands.Cog):
         )
         now = datetime.strptime(datetime.now(self.JST).strftime("%Y-%m-%d %H:%M:%S"), '%Y-%m-%d %H:%M:%S')
         time = now - the_last_time_of_medication[0]['created_at']
-        minutes = (time.seconds % 3600) // 60
-        embed_description = 'It took {} minutes to get trip'.format(minutes)
+        embed_description = 'It took {} minutes to get trip'.format(time)
         embed = discord.Embed(title='キマるな', description=embed_description, color=0xff4dd8)
         embed.set_author(name=user, icon_url=icon)
         embed.set_thumbnail(url=bot_icon)
