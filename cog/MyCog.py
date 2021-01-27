@@ -25,7 +25,7 @@ class MyCog(commands.Cog):
         mod = myMod()
         user = ctx.author
         bot = self.bot.get_user(self.bot_id)
-        embed_description = f"{user} took '{drug_name} {amount}mg' at {datetime.now().strftime('%H:%M')}"
+        embed_description = f"{user.mention} took '{drug_name} {amount}mg' at {datetime.now().strftime('%H:%M')}"
 
         bot_icon = self.icon_url.format(
             id=str(self.bot_id),
