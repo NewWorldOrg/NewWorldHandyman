@@ -13,6 +13,7 @@ discord-py = "*"
 wikipedia = "*"
 mysql-connector = "*"
 python-dotenv = "*"
+typing-extensions = "*"
 
 [requires]
 python_version = "3.8.x"
