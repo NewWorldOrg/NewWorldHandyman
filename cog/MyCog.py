@@ -212,11 +212,6 @@ class MyCog(commands.Cog):
     '''
 
     @commands.command()
-    async def member(self, ctx):
-        for member in ctx.guild.members:
-            await ctx.send(member.name)
-
-    @commands.command()
     async def member_register(self, ctx):
         mod = myMod()
 
