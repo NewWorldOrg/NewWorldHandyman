@@ -68,6 +68,8 @@ class MyCog(commands.Cog):
         embed.set_footer(text='NewWorldHandyman')
         await ctx.send(embed=embed)
 
+        return True
+
     @commands.command(name='薬物登録')
     async def save_drug_data(self, ctx, drug_name: str):
 
@@ -99,6 +101,8 @@ class MyCog(commands.Cog):
         embed.set_footer(text='NewWorldHandyman')
 
         await ctx.send(embed=embed)
+
+        return True
 
     @commands.command()
     async def hello(self, ctx):
@@ -171,6 +175,8 @@ class MyCog(commands.Cog):
         embed.set_author(name='NewWorldHandyman', icon_url=icon)
         await ctx.send(embed=embed)
 
+        return True
+
     @commands.command(name='キマってきた')
     async def effect_manifestation(self, ctx):
         mod = myMod()
@@ -196,6 +202,8 @@ class MyCog(commands.Cog):
         embed.set_thumbnail(url=bot_icon)
         embed.set_footer(text='NewWorldHandyman')
         await ctx.send(embed=embed)
+
+        return True
 
     # 毎晩2時に睡眠アラートを流す -> 形骸化の為廃止(2020/09/18)
     '''@tasks.loop(minutes=1)
