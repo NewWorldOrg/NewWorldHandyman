@@ -37,7 +37,7 @@ class MyCog(commands.Cog):
             avatar=ctx.author.avatar,
         )
 
-        amount = math.floor(amount * 10 ** 2) / (10 ** 2)
+        amount = math.floor(amount * 10 ** 3) / (10 ** 3)
 
         if amount <= 0:
             emperor = self.bot.get_user(self.emperor_id)
@@ -53,7 +53,7 @@ class MyCog(commands.Cog):
             await ctx.send(embed=embed)
             return False
 
-        amount = math.floor(amount * 10 ** 2) / (10 ** 2)
+        amount = math.floor(amount * 10 ** 3) / (10 ** 3)
 
         if not mod.save_use_drug_history(user.id, drug_name, amount):
             embed = discord.Embed(title='のんだ', description='飲むな', color=0xff4dd8)
